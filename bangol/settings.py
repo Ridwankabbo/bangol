@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'user'
+    'user',
+    'rest_framework',
+    'rest_framework_simplejwt',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +70,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'bangol.wsgi.application'
+
+
+# Default customize user model
+AUTH_USER_MODEL='user.User'
+
+
 
 
 # Database
@@ -121,3 +129,37 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+REST_FRAMEWORK={
+    'DEFAULT_AUTHENTICATION_CLASSES':[
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ]
+    
+}
+
+from datetime import timedelta
+
+SIMPLE_JWT = {
+    'AUTHENTICATION_METHOD': 'email',
+    
+    # 💡 FIX 1: Corrected typo from FILED to FIELD
+    'USER_ID_FIELD': 'id', 
+    'USER_ID_CLAIM': 'user_id',
+    
+    'ACCESS_TOKEN_LIFETIME': timedelta(hours=5),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    
+    'TOKEN_OBTAIN_SERIALIZER': 'user.serializers.CustomTokenObtainPairSerializer',
+    
+    # 💡 FIX 2: Corrected typo from HEADERS_TYPE to HEADER_TYPES
+    'AUTH_HEADER_TYPES': ('Bearer',), 
+    
+    # 💡 Ensure this path is 100% correct: AppName.ModelName
+    'TOKEN_USER_CLASS': 'user.User',
+    }
+
