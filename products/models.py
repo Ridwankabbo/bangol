@@ -18,7 +18,7 @@ class Category(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=150)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='product')
-    price = models.DecimalField(max_digits=6, decimal_places=2)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
@@ -29,9 +29,12 @@ class ProductImage(models.Model):
     image = models.ImageField(upload_to='products/', null=True, blank=True)
     alt_text = models.CharField(max_length=150)
     
+    def __str__(self):
+        return self.product.name
+    
 class ProductStock(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='product_catagory')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_stock')
     stock_quantity = models.IntegerField()
     is_available = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
