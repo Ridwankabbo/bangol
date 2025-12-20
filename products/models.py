@@ -14,6 +14,7 @@ class Category(models.Model):
         
     def __str__(self):
         return self.name
+
     
 class Product(models.Model):
     name = models.CharField(max_length=150)
@@ -24,10 +25,30 @@ class Product(models.Model):
     def __str__(self):
         return self.name
     
+
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_image')
     image = models.ImageField(upload_to='products/', null=True, blank=True)
     alt_text = models.CharField(max_length=150)
+    
+    def __str__(self):
+        return self.product.name
+    
+    
+class ProductDetail(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_details')
+    # images = models.ForeignKey(ProductImage, on_delete=models.CASCADE)
+    description = models.TextField()
+    
+    def __str__(self):
+        return f"{self.product.name} description: {self.description}"
+    
+    
+    
+class PorductSpecifications(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_specification')
+    specification_name = models.CharField(max_length=100)
+    specification_value = models.CharField(max_length=100)
     
     def __str__(self):
         return self.product.name
