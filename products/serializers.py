@@ -29,7 +29,7 @@ class ProductSerializer(serializers.ModelSerializer):
     product_specification = ProductSpecificationSerializer(many=True, read_only=True)
     class Meta:
         model = Product
-        fields = ['name','category', 'product_details', 'price', 'product_image', 'product_stock','product_specification', 'created_at']
+        fields = ['id', 'name','category', 'product_details', 'price', 'product_image', 'product_stock','product_specification', 'created_at']
         
 
         
