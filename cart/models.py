@@ -7,7 +7,8 @@ from user.models import User
 """ 
     ===================== 
         Cart model
-    ====================="""
+    =====================
+"""
 class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cart')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -18,7 +19,8 @@ class Cart(models.Model):
 """ 
     ===================
         CartItem
-    ==================="""
+    ===================
+"""
 class CartItem(models.Model):
     cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='cart_item')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
