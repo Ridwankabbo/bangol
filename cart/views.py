@@ -8,7 +8,7 @@ from .serializers import CartSerializer, CartItemSerializer
 @api_view(['GET'])
 def CartView(request):
     if request.method == 'GET':
-        carts = Cart.objects.all()
-        serializer = CartSerializer(carts, many=True)
+        cart = Cart.objects.filter(user=request.user)
+        serializer = CartSerializer(cart, many=True)
         
         return Response(serializer.data)
