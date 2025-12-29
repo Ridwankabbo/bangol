@@ -43,10 +43,13 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'products',
     'cart',
+    'order',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -149,6 +152,13 @@ REST_FRAMEWORK={
     
 }
 
+
+CORS_ALLOW_ALL_ORIGINS=False
+
+CORS_ALLOWED_ORIGINS=[
+    'http://localhost:5173'
+]
+
 from datetime import timedelta
 
 SIMPLE_JWT = {
@@ -168,5 +178,7 @@ SIMPLE_JWT = {
     
     # 💡 Ensure this path is 100% correct: AppName.ModelName
     'TOKEN_USER_CLASS': 'user.User',
-    }
+}
+
+
 
