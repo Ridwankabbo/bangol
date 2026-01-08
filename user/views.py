@@ -6,10 +6,8 @@ from .models import User
 from .serializers import (
     UserRegistrationSerializer,
     VerifyOtpSerializer,
-    LoginSerializer,
     ForgotPasswordSerializer,
     ResetPasswordSerializer,
-    UserSerializer
 )
 # Create your views here.
 
