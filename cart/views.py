@@ -2,6 +2,8 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
+from django.shortcuts import get_object_or_404
+from products.models import Product
 
 from .models import Cart, CartItem
 from .serializers import CartSerializer
@@ -9,8 +11,21 @@ from .serializers import CartSerializer
 
 @api_view(['GET'])
 def CartView(request):
-    cart = Cart.objects.filter(user=request.user)
-    serializer = CartSerializer(cart, many=True)
+    
+    if request.user.is_authenticated:
+        cart, created = Cart.objects.get_or_create(user=request.user)
+        
+    else:
+        cart_id = request.data.get('cart_id')
+        if not cart_id:
+            return Response({"Items":[], "grand_total": 0})
+        
+        try:
+            cart = Cart.objects.get_or_create(id=cart_id, user__isnull=True)
+        except (Cart.DoesNotExist, ValueError): 
+            return Response({"error":"Cart not found"})
+        
+    serializer = CartSerializer(cart)
         
     return Response(serializer.data)
     
@@ -24,9 +39,11 @@ def AddToCartAuthenticated(request):
         
         cart, created = Cart.objects.get_or_create(user = request.user)
         
+        product_instance = get_object_or_404(Product, id=product_id)
+        
         cart_item, created = CartItem.objects.get_or_create(
             cart=cart,
-            product=product_id
+            product=product_instance
         )        
         
         if not created:
