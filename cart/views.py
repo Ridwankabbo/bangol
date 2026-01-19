@@ -9,6 +9,13 @@ from .models import Cart, CartItem
 from .serializers import CartSerializer
 # Create your views here.
 
+
+""" 
+    =========================
+        Get Cart view
+    =========================
+"""
+
 @api_view(['GET'])
 def CartView(request):
     
@@ -29,6 +36,12 @@ def CartView(request):
         
     return Response(serializer.data)
     
+    
+""" 
+    ================================
+        Add to cart Authenticated
+    ================================
+"""
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def AddToCartAuthenticated(request):
@@ -54,6 +67,36 @@ def AddToCartAuthenticated(request):
         cart_item.save()
         return Response({"message":"Item added to cart", "cart_id":cart.id})
     
+    
+""" 
+    =========================
+        Delete cart
+    =========================
+"""
+@api_view(['DELETE'])
+def DeleteCartItemView(request):
+    item_id = request.data.get('item_id')
+    
+    if request.user.is_authenticated:
+        item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+        item.delete()
+        
+        return Response({"message":"Item removed from cart"})
+        
+    else:
+        cart_id = request.data.get('cart_id') or request.quary_params.get('cart_id')
+        item = get_object_or_404(CartItem, id=item_id, cart_id=cart_id)
+
+        item.delete()
+        
+        return Response({"message": "Item removed from class"})
+    
+        
+""" 
+    =========================
+        Add to cart guest
+    =========================
+"""
 
 @api_view(['POST'])
 def AddToCartGuest(request):
