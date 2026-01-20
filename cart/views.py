@@ -67,6 +67,30 @@ def AddToCartAuthenticated(request):
         cart_item.save()
         return Response({"message":"Item added to cart", "cart_id":cart.id})
     
+
+""" 
+    ==========================
+        Update Cart View
+    ==========================
+"""    
+@api_view(['PATCH'])
+def UpdateCartItemView(request):
+    item_id = request.data.get('item_id')
+    
+    if request.user.is_authenticated:
+        item = get_object_or_404(CartItem, id=item_id, cart__user=request.user)
+    else:
+        cart_id = request.data.get('cart_id') or request.query_params.get('cart_id')
+        item = get_object_or_404(CartItem, id=item_id, cart_id=cart_id)
+    
+    new_quantity = request.data.get('quantity')
+    
+    if new_quantity is not None and int(new_quantity) > 0:
+        item.quantity = int(new_quantity)
+        item.save()
+        
+        return Response({"message":"Quantity updated","new_quantity":item.quantity})
+    return Response({"message":"Invalid quantity"})
     
 """ 
     =========================
