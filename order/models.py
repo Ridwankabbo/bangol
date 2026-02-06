@@ -22,7 +22,7 @@ class Order(models.Model):
         super().save(*args, **kwargs)
         
     def __str__(self):
-        return f"{self.order_number} - {self.user}"       
+        return f"{self.order_number} - {self.user} created_at: {self.created_at}"       
     
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name='order_item')
@@ -34,4 +34,7 @@ class OrderItem(models.Model):
     
     def get_subtotal(self):
         return self.quantity * self.price_at_purchase
+    
+    def __str__(self):
+        return f"Id: {self.id} product: {self.product.name} reguler price:{self.product.price} price at purches:{self.price_at_purchase}"
     
