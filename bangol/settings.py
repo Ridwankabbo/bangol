@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 from pathlib import Path
 import os
+from decouple import config
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'cart',
     'order',
     'corsheaders',
+    'ai',
 ]
 
 MIDDLEWARE = [
@@ -179,6 +181,9 @@ SIMPLE_JWT = {
     # 💡 Ensure this path is 100% correct: AppName.ModelName
     'TOKEN_USER_CLASS': 'user.User',
 }
+
+# ===================== GEMINI API KEY for agent =====================
+GOOGLE_API_KEY=config('GOOGLE_GEMINI_API_KEY')
 
 
 
