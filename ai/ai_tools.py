@@ -11,12 +11,12 @@ def search_products(querry:str):
     Search for products in the database. 
     Search for products using fuzzy matching. 
     Handles typos (e.g., 'frout' -> 'fruit') and plurals (e.g., 'mobiles' -> 'mobile') and (synonyms like mobile and phoner are basically same).
-    scan the db products and category so the typos, purals and synonyms problem shouldn't happen.
+    scan the  products and category so the typos, purals and synonyms problem shouldn't happen.
     Use this when the user asks to see items, find products, or searches for a specific category.
     Input should be a search string like 'panjabi' or 'blue shirt'.
     """
     
-    print(querry)
+    #print(querry)
     
     words = querry.split()
     
