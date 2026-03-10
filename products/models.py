@@ -23,16 +23,10 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.name
+        return f"{self.name}"
     
 
-class ProductImage(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_image')
-    image = models.ImageField(upload_to='products/', null=True, blank=True)
-    alt_text = models.CharField(max_length=150)
-    
-    def __str__(self):
-        return self.product.name
+
     
     
 class ProductDetail(models.Model):
@@ -41,27 +35,35 @@ class ProductDetail(models.Model):
     description = models.TextField()
     
     def __str__(self):
-        return f"{self.product.name} description: {self.description}"
+        return f"{self.product}"
     
+class ProductImage(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_image_front')
+    product_details = models.ForeignKey(ProductDetail, on_delete=models.CASCADE, related_name='product_images', null=True, blank=True)
+    image = models.ImageField(upload_to='products/', null=True, blank=True)
+    alt_text = models.CharField(max_length=150)
     
+    def __str__(self):
+        return f"{self.product.name}"
     
 class PorductSpecifications(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_specification')
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, null=True, blank=True)
+    product_details = models.ForeignKey(ProductDetail, on_delete=models.CASCADE, related_name='product_specification', null=True, blank=True)
     specification_name = models.CharField(max_length=100)
     specification_value = models.CharField(max_length=100)
     
     def __str__(self):
-        return self.product.name
+        return f"{self.product}"
     
 class ProductStock(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='product_catagory')
-    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='product_stock')
+    product_details = models.ForeignKey(ProductDetail, on_delete=models.CASCADE, related_name='product_stock', null=True, blank=True)
     stock_quantity = models.IntegerField()
     is_available = models.BooleanField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return f"catagory:{self.category} product:{self.product} stoke quantity:{self.stock_quantity}"
+        return f"catagory:{self.category} product:{self.product_details} stoke quantity:{self.stock_quantity}"
     
     
