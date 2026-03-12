@@ -34,12 +34,12 @@ def search_products(querry:str):
     
     results = []
     for p in products:
-        first_image = p.product_image.first()
+        first_image = p.product_image_front.first()
         image_url = first_image.image.url if first_image and first_image.image else None
         
         # Get stock info
-        stock = p.product_stock.first()
-        stock_qty = stock.stock_quantity if stock else 0
+        # stock = p.product_stock.first()
+        # stock_qty = stock.stock_quantity if stock else 0
         
         results.append({
             "id": p.id,
@@ -47,7 +47,6 @@ def search_products(querry:str):
             "price": str(p.price),
             "category": p.category.name,
             "image": image_url,
-            "in_stock": stock_qty > 0
         })
     return json.dumps(results)
 

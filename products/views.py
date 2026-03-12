@@ -17,7 +17,7 @@ from .serializers import (
 
 """ 
     =========================
-        All products View
+        products View
     =========================
 """
 class ProductView(APIView):
@@ -27,23 +27,23 @@ class ProductView(APIView):
         serializer = ProductSerializer(products, many=True)
         return Response(serializer.data)
     
-    def post(self, request):
-        product_id = request.GET.get('product_id')
-        try:
-            product_details = ProductDetail.objects.get(product = product_id)
-            serializer = ProductDetailsSerializer(product_details)
-        except ProductDetail.DoesNotExist:
-            return Response({"response":"Product details doesn't exist"})
-        return Response(serializer.data)
+    # def post(self, request, product_id):
+    #     # product_id = request.data.get('product_id')
+    #     try:
+    #         product_details = ProductDetail.objects.get(product = product_id)
+    #         serializer = ProductDetailsSerializer(product_details)
+    #     except ProductDetail.DoesNotExist:
+    #         return Response({"response":"Product details doesn't exist"})
+    #     return Response(serializer.data)
 
-# @api_view(['POST'])
-# def ProductDetailsView(request, product_id):
-#     try:
-#         product_details = ProductDetail.objects.get(product=product_id)
-#     except ProductDetail.DoesNotExist:
-#         return Response({"response":"Product details doesn't exist"})
-#     serializer = ProductDetailsSerializer(product_details)
-#     return Response(serializer.data)
+@api_view(['GET'])
+def ProductDetailsView(request, product_id):
+    try:
+        product_details = ProductDetail.objects.get(product=product_id)
+    except ProductDetail.DoesNotExist:
+        return Response({"response":"Product details doesn't exist"})
+    serializer = ProductDetailsSerializer(product_details)
+    return Response(serializer.data)
 
 
 """ 

@@ -36,7 +36,7 @@ def run_ecommerce_agent(user_querry, history_list=[]):
     If you find products to show, your 'Final Answer' must follow this EXACT structure:
 
     MESSAGE: [A friendly response in Bengali about the items found]
-    DATA: [A JSON array of product objects with: "id", "name", "price", "category"]
+    DATA: [A JSON array of product objects with: "id", "name","image", "price", "category",]
 
     If no products are found or it's a general question, just provide the MESSAGE.
     """
