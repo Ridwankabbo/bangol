@@ -11,9 +11,16 @@ from .models import (
 from .serializers import (
     ProductSerializer, 
     ProductStockSerializer,
-    ProductDetailsSerializer
+    ProductDetailsSerializer,
+    CategorySerializer
 )
 # Create your views here.
+
+@api_view(['GET'])
+def CategoryApiView(request):
+    categories = Category.objects.all()
+    serializer = CategorySerializer(categories, many=True)
+    return Response(serializer.data)
 
 """ 
     =========================
@@ -51,11 +58,14 @@ def ProductDetailsView(request, product_id):
         get products by catagory view
     ======================================
 """
-@api_view(['POST'])
-def getProductsByCatagory(request):
+@api_view(['GET'])
+def getProductsByCatagory(request, slug):
     
-    category = Category.objects.get(slug=request.GET.get('category'))
+    category = Category.objects.get(slug=slug)
+    if not category:
+        return Response({"response":"Invalid category"})
     products = Product.objects.filter(category=category)
+    print(products)
     serializer = ProductSerializer(products, many=True)
     
     return Response(serializer.data)

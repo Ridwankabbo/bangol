@@ -10,9 +10,9 @@ from langchain_core.messages import HumanMessage, AIMessage
 def run_ecommerce_agent(user_querry, history_list=[]):
     
     llm = ChatGoogleGenerativeAI(
-        model = 'gemini-2.5-flash', 
-        temperature = 0,
-        google_api_key=settings.GOOGLE_API_KEY,
+        model="gemini-2.0-flash-lite",           # corrected spelling (your code had 2.5)
+        temperature=0,
+        google_api_key=settings.GOOGLE_GEMINI_API_KEY,
         safety_settings={
             HarmCategory.HARM_CATEGORY_DANGEROUS_CONTENT: HarmBlockThreshold.BLOCK_NONE,
         },

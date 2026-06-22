@@ -158,7 +158,8 @@ REST_FRAMEWORK={
 CORS_ALLOW_ALL_ORIGINS=False
 
 CORS_ALLOWED_ORIGINS=[
-    'http://localhost:5173'
+    'http://localhost:5173',
+    'http://192.168.1.107:5173'
 ]
 
 from datetime import timedelta
@@ -183,7 +184,7 @@ SIMPLE_JWT = {
 }
 
 # ===================== GEMINI API KEY for agent =====================
-GOOGLE_API_KEY=config('GOOGLE_GEMINI_API_KEY')
+GOOGLE_GEMINI_API_KEY=config('GOOGLE_GEMINI_API_KEY')
 
 
 
